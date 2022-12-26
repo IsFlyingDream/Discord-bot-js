@@ -2,12 +2,19 @@
 //本文件關鍵字為：$save
 //const { channel } = require('diagnostics_channel');
 const { Client, GatewayIntentBits } = require('discord.js');
-const { token } = require('./token.json');
+
+
+//const { token } = require('./token.json');
+//剛加前綴字
+//const { prefix } = require('./token.json');
+// 從 .env 檔案中讀取環境變數
+const dotenv = require('dotenv')
+dotenv.config();
+
 //const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 const client = new Client({ intents: ['Guilds', 'GuildMessages', 'MessageContent'] });
 
-//剛加前綴字
-const { prefix } = require('./token.json');
+
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -30,9 +37,11 @@ client.on('messageCreate', async (message) => {//從訊息上辨認
    
   const prefixText = String(message.content);
 
-  if (prefixText[0] === `${prefix}`) {//判斷前綴字
+   
+  //if (prefixText[0] === `${prefix}`) {//判斷前綴字
+  if (prefixText[0] === process.env.PREFIX) {//判斷前綴字
     const keyWord = prefixText.substr(1);//砍掉第一個前綴字
-    const rules = /save+/;//裡面那個$是寫死的，找不到參照變數prefix的方式 
+    const rules = /save+/;
 
     if (keyWord === `save`) {
       //(最新)執行此方法>>cli.bat改成字串傳值，不同段 以&&相接-------------    
@@ -41,7 +50,7 @@ client.on('messageCreate', async (message) => {//從訊息上辨認
       function execute() { 
         var cmd = 'echo 321';
         cmd +=' && cd DiscordChatExporter.Cli/';
-        cmd +=' && dotnet DiscordChatExporter.Cli.dll export -t \"'+token+'\" -c '+message.channel.id+' -o \"\\Desktop\\%G_%C.html\" ';
+        cmd +=' && dotnet DiscordChatExporter.Cli.dll export -t \"'+process.env.TOKEN+'\" -c '+message.channel.id+' -o \"\\Desktop\\%G_%C.html\" ';
         exec(cmd,
             (error, stdout, stderr) => {
                 console.log(`${stdout}`);
@@ -66,7 +75,7 @@ client.on('messageCreate', async (message) => {//從訊息上辨認
       function execute() { 
         var cmd = 'echo 321';
         cmd +=' && cd DiscordChatExporter.Cli/';
-        cmd +=' && dotnet DiscordChatExporter.Cli.dll export -t \"'+token+'\" -c '+message.channel.id+'  '+timeString+'  -o \"\\Desktop\\%G_%C.html\" ';
+        cmd +=' && dotnet DiscordChatExporter.Cli.dll export -t \"'+process.env.TOKEN+'\" -c '+message.channel.id+'  '+timeString+'  -o \"\\Desktop\\%G_%C.html\" ';
         exec(cmd,
             (error, stdout, stderr) => {
                 console.log(`${stdout}`);
@@ -108,7 +117,7 @@ client.on('interactionCreate', async interaction => {//啟動指令
       //var cmd = 'cd /d "E:/postsql/bin>" && shp2pgsql -W "GBK" C:/tcc/beijing_points.shp  viwpt >C:/tcc/viwpt.sql && psql -d spatial -f C:/tcc/viwpt.sql postgres';
       var cmd = 'echo 321';
       cmd +=' && cd DiscordChatExporter.Cli/';
-      cmd +=' && dotnet DiscordChatExporter.Cli.dll export -t \"'+token+'\" -c 1053640153308086292 -o \"\\Desktop\\%G_%C.html\" ';
+      cmd +=' && dotnet DiscordChatExporter.Cli.dll export -t \"'+process.env.TOKEN+'\" -c 1053640153308086292 -o \"\\Desktop\\%G_%C.html\" ';
       exec(cmd,
           (error, stdout, stderr) => {
               console.log(`${stdout}`);
@@ -126,4 +135,5 @@ client.on('interactionCreate', async interaction => {//啟動指令
 
 
 
-client.login(token);
+//client.login(token);
+client.login(process.env.TOKEN);
