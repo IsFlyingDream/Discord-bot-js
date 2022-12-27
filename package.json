@@ -4,12 +4,22 @@
   "description": "bot",
   "main": "bot.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "discord.js": "^14.7.1",
-    "dotenv": "^16.0.3"
-  }
+    "express": "^4.18.2",
+    "runtime": "^0.14.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IsFlyingDream/Discord-bot-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/IsFlyingDream/Discord-bot-js/issues"
+  },
+  "homepage": "https://github.com/IsFlyingDream/Discord-bot-js#readme"
 }
